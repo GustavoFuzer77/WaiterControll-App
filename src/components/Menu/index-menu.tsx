@@ -5,28 +5,43 @@ import {TextComponent} from '../Text/index-text';
 import {formatPrice} from '../../utils/functions';
 import {PlusCircle} from '../../../assets/icons/PlusCircle';
 import {ProductModal} from '../ProductModal/index-productModal';
+import {ICart} from '../../types/interfaces';
+import {TProducts} from '../../types/types';
 
-interface IProduct {
-  _id: string;
-  name: string;
-  description: string;
-  imagePath: string;
-  price: number;
-  ingredients: {
-    name: string;
-    icon: string;
-    _id: string;
-  }[];
+interface IMenu {
+  handleSelect: {
+    handleAddProductToCart: (product: TProducts) => void;
+    handleDecreaseItems: (product: TProducts) => void;
+  };
+  handleSelectedTable: () => void;
+  selectedTable: string;
 }
 
-export const Menu = () => {
+export const Menu = ({
+  handleSelect,
+  handleSelectedTable,
+  selectedTable,
+}: IMenu) => {
   const [openDetailProduct, setOpenDetailProduct] = useState(false);
-  const [product, setProduct] = useState<null | IProduct>(null);
+  const [product, setProduct] = useState<null | TProducts>(null);
 
-  const selectProductToOpen = (product: IProduct) => {
+  const selectProductToOpen = (product: TProducts) => {
     setOpenDetailProduct(true);
     setProduct(product);
   };
+
+  const handleAddToCart = (prod: TProducts) => {
+    if (selectedTable.length <= 0) {
+      handleSelectedTable();
+      handleSelect.handleAddProductToCart(prod);
+      return;
+    }
+    handleSelect.handleAddProductToCart(prod);
+  };
+
+  const handleRemoveToCart = (prod: TProducts) => {
+    handleSelect.handleDecreaseItems(prod);
+  }
 
   return (
     <>
@@ -34,6 +49,7 @@ export const Menu = () => {
         visible={openDetailProduct}
         onClose={() => setOpenDetailProduct(false)}
         product={product}
+        onAddToCart={handleAddToCart}
       />
       <FlatList
         data={products}
@@ -46,16 +62,17 @@ export const Menu = () => {
               {/* <TextComponent>SEM FOTO</TextComponent> */}
               <Image
                 style={{width: '100%', height: 100, borderRadius: 10}}
+                resizeMode={'cover'}
                 source={{
-                  uri: 'https://th.bing.com/th/id/R.469eaee2b9ac36c27feedfd2796cee0a?rik=Rvec%2b%2bz8yQtN5g&riu=http%3a%2f%2fastrolabio.com.mx%2fwp-content%2fuploads%2f2015%2f11%2fPizza-Margherita.jpg&ehk=oLfkE5pRt3sWIYWRbo76Bpm4LZPNIJozQ3VuCCbX16M%3d&risl=&pid=ImgRaw&r=0',
+                  uri: `http://192.168.0.71:3001/uploads/${products.imagePath}`,
                 }}
               />
             </View>
             <View className="w-2/3 p-2">
-              <TextComponent style="font-fontGeneralSansBold text-lg text-zinc-900">
+              <TextComponent numberOfLine={1} style="font-fontGeneralSansBold text-lg text-zinc-900">
                 {products.name}
               </TextComponent>
-              <TextComponent style="font-fontGeneralSansRegular text-sm text-zinc-900 opacity-70 h-1/2">
+              <TextComponent numberOfLine={2} style="font-fontGeneralSansRegular text-sm text-zinc-900 opacity-70 h-1/2">
                 {products.description}
               </TextComponent>
               <View className="flex-1 flex-row justify-between align-middle items-center">
@@ -63,7 +80,7 @@ export const Menu = () => {
                   R$
                   <TextComponent>{formatPrice(products.price)}</TextComponent>
                 </TextComponent>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleAddToCart(products)}>
                   <TextComponent>
                     <PlusCircle />
                   </TextComponent>

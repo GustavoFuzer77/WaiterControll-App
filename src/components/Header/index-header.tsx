@@ -7,9 +7,11 @@ interface IHeader {
 }
 
 export const Header = ({selectedTable, onCancel}: IHeader) => {
+
+  console.log(selectedTable, 'selectedTable 3')
   return (
     <View className="mb-6 flex flex-row justify-between">
-      {selectedTable.length > 1 ? (
+      {selectedTable.length >= 1 ? (
         <View className="flex flex-col">
           <TextComponent style="font-fontGeneralSansBold text-2xl text-zinc-900">
             Pedido
@@ -28,7 +30,7 @@ export const Header = ({selectedTable, onCancel}: IHeader) => {
         </View>
       )}
       <View>
-        {selectedTable.length > 1 && (
+        {selectedTable.length >= 1 && (
           <TouchableOpacity onPress={onCancel}>
             <TextComponent style="font-fontGeneralSansRegular text-sm p-2 rounded bg-red-500 text-slate-200">
               Cancelar Pedido
