@@ -8,14 +8,17 @@ import {PlusCircle} from '../../../assets/icons/PlusCircle';
 import {MinusCircle} from '../../../assets/icons/MinusCircle';
 import {TProducts} from '../../types/types';
 import ModalFinishedOrder from '../ModalFinishedOrder/index-modalFinishedOrder';
+import { apiRoute } from '../../utils/consts';
 
 interface ICartItem {
   cartItem: ICart[];
   onAdd: (product: TProducts) => void;
   onRemove: (product: TProducts) => void;
+  onConfirmOrder: () => void;
+  loading: boolean
 }
 
-const Cart = ({cartItem, onAdd, onRemove}: ICartItem) => {
+const Cart = ({cartItem, onAdd, onRemove, onConfirmOrder, loading}: ICartItem) => {
   const [finished, setFinished] = useState(false);
 
   const totalItems = cartItem.reduce((acc, {product, quantity}) => {
@@ -28,7 +31,10 @@ const Cart = ({cartItem, onAdd, onRemove}: ICartItem) => {
 
   return (
     <>
-      {finished && <ModalFinishedOrder />}
+      <ModalFinishedOrder
+        visible={finished}
+        onClickedOk={() => onConfirmOrder()}
+      />
       <FlatList
         data={cartItem}
         keyExtractor={key => key.product._id}
@@ -37,7 +43,7 @@ const Cart = ({cartItem, onAdd, onRemove}: ICartItem) => {
           <View className="flex-row p-3 bg-gray-200">
             <Image
               source={{
-                uri: `http://192.168.0.71:3001/uploads/${products.product.imagePath}`,
+                uri: `${apiRoute}/uploads/${products.product.imagePath}`,
               }}
               className="w-20 h-12"
             />
@@ -86,7 +92,8 @@ const Cart = ({cartItem, onAdd, onRemove}: ICartItem) => {
         </View>
         <ButtonComponent
           text={'Confirmar pedido'}
-          handleClick={handleConfirmOrder}
+          loading={loading}
+          handleClick={() => handleConfirmOrder()}
           state={{
             disabled: cartItem.length === 0,
           }}

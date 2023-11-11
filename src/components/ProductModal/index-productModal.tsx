@@ -10,6 +10,7 @@ import {Close} from '../../../assets/icons/Close';
 import {TextComponent} from '../Text/index-text';
 import {ButtonComponent} from '../Button/index-button';
 import {formatPrice} from '../../utils/functions';
+import { apiRoute } from '../../utils/consts';
 
 interface IProductModal {
   visible: boolean;
@@ -28,7 +29,7 @@ export const ProductModal = ({visible, onClose, product, onAddToCart}: IProductM
         <ImageBackground
           style={{width: '100%', height: 200}}
           source={{
-            uri: `http://192.168.0.71:3001/uploads/1696110494446-OIP.jpeg`,
+            uri: `${apiRoute}/uploads/${product.imagePath}`,
           }}>
           <TouchableOpacity
             onPress={onClose}

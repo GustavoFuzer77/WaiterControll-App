@@ -39,7 +39,7 @@ export const products = [
     name: 'Hambúrguer 2',
     description:
       'Hamburguer 130g queijo prato derretido, alface, tomate e a deliciosa maionese osnir.',
-    imagePath: '1696110494446-OIP.jpeg',
+    imagePath: '1699481789943-ingredients.jfif',
     price: 29.9,
     ingredients: [
       {

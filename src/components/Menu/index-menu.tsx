@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import {FlatList, TouchableOpacity, View, Image} from 'react-native';
-import {products} from '../../mocks/products';
+// import {products} from '../../mocks/products';
 import {TextComponent} from '../Text/index-text';
 import {formatPrice} from '../../utils/functions';
 import {PlusCircle} from '../../../assets/icons/PlusCircle';
 import {ProductModal} from '../ProductModal/index-productModal';
-import {ICart} from '../../types/interfaces';
 import {TProducts} from '../../types/types';
+import { apiRoute } from '../../utils/consts';
 
 interface IMenu {
   handleSelect: {
@@ -15,12 +15,14 @@ interface IMenu {
   };
   handleSelectedTable: () => void;
   selectedTable: string;
+  products: TProducts[]
 }
 
 export const Menu = ({
   handleSelect,
   handleSelectedTable,
   selectedTable,
+  products
 }: IMenu) => {
   const [openDetailProduct, setOpenDetailProduct] = useState(false);
   const [product, setProduct] = useState<null | TProducts>(null);
@@ -64,7 +66,7 @@ export const Menu = ({
                 style={{width: '100%', height: 100, borderRadius: 10}}
                 resizeMode={'cover'}
                 source={{
-                  uri: `http://192.168.0.71:3001/uploads/${products.imagePath}`,
+                  uri: `${apiRoute}/uploads/${products.imagePath}`,
                 }}
               />
             </View>

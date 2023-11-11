@@ -4,7 +4,7 @@ import {TextComponent} from '../Text/index-text';
 import {ButtonComponent} from '../Button/index-button';
 import Cart from '../Cart/index-cart';
 import {ICart} from '../../types/interfaces';
-import { TProducts } from '../../types/types';
+import {TProducts} from '../../types/types';
 
 interface IFooter {
   // setActionModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,16 +16,33 @@ interface IFooter {
     handleAddProductToCart: (product: TProducts) => void;
     handleDecreaseItems: (product: TProducts) => void;
   };
+  handleConfirmOrder: () => void;
+  isLoading: boolean;
+  isLoadingFoods: boolean;
 }
 
-export const Footer = ({setActionModal, selectedTable, cartItems, handleSelect}: IFooter) => {
+export const Footer = ({
+  setActionModal,
+  selectedTable,
+  cartItems,
+  handleSelect,
+  handleConfirmOrder,
+  isLoading,
+  isLoadingFoods,
+}: IFooter) => {
   return (
     <View>
       {selectedTable?.length > 0 && (
         <View
           style={{maxHeight: 300, minHeight: 0, height: 'auto'}}
           className=" bg-gray-200 ">
-          <Cart onRemove={handleSelect.handleDecreaseItems} onAdd={handleSelect.handleAddProductToCart} cartItem={cartItems} />
+          <Cart
+            onConfirmOrder={handleConfirmOrder}
+            onRemove={handleSelect.handleDecreaseItems}
+            onAdd={handleSelect.handleAddProductToCart}
+            cartItem={cartItems}
+            loading={isLoading}
+          />
         </View>
       )}
 
@@ -35,8 +52,9 @@ export const Footer = ({setActionModal, selectedTable, cartItems, handleSelect}:
             <ButtonComponent
               text={'Novo pedido'}
               handleClick={setActionModal}
+              // loading={isLoadingFoods}
               state={{
-                disabled: false,
+                disabled: isLoadingFoods,
               }}
             />
           </View>

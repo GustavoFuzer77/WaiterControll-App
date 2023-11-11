@@ -1,11 +1,13 @@
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, ActivityIndicator} from 'react-native';
 import {TextComponent} from '../Text/index-text';
 
 interface IButton {
   text: string | number;
   handleClick: () => void;
-  state: {disabled: boolean};
+  state?: {disabled: boolean};
   backgroundColor?: string;
+  style?: string;
+  loading?: boolean;
 }
 
 export const ButtonComponent = ({
@@ -13,9 +15,11 @@ export const ButtonComponent = ({
   handleClick,
   state,
   backgroundColor,
+  style,
+  loading,
 }: IButton) => {
   const validateButtonStatement = () => {
-    if (state.disabled) {
+    if (state?.disabled || loading) {
       return `bg-gray-400`;
     }
 
@@ -26,12 +30,25 @@ export const ButtonComponent = ({
   };
 
   return (
-    <TouchableOpacity onPress={handleClick} disabled={state.disabled}>
+    <TouchableOpacity
+      onPress={handleClick}
+      disabled={state?.disabled || loading}>
       <View className={`${validateButtonStatement()} flex rounded-3xl w-full`}>
-        <TextComponent
-          style={`font-fontGeneralSansSemibold text-lg text-slate-100 p-3 text-center`}>
-          {text}
-        </TextComponent>
+        {!loading && (
+          <TextComponent
+            style={
+              ` text-lg p-3 text-center ${style}` ??
+              `font-fontGeneralSansSemibold text-lg text-slate-100 p-3 text-center`
+            }>
+            {text}
+          </TextComponent>
+        )}
+
+        {loading && (
+          <View className={'justify-center p-4 '}>
+            <ActivityIndicator color={'#fff'} />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

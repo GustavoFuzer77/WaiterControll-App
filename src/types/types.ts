@@ -11,3 +11,8 @@ export type TProducts = {
   }[];
 };
 
+export type TCategories = {
+  _id: string;
+  name: string;
+  icon: string;
+};

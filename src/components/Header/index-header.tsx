@@ -7,8 +7,6 @@ interface IHeader {
 }
 
 export const Header = ({selectedTable, onCancel}: IHeader) => {
-
-  console.log(selectedTable, 'selectedTable 3')
   return (
     <View className="mb-6 flex flex-row justify-between">
       {selectedTable.length >= 1 ? (
@@ -16,7 +14,9 @@ export const Header = ({selectedTable, onCancel}: IHeader) => {
           <TextComponent style="font-fontGeneralSansBold text-2xl text-zinc-900">
             Pedido
           </TextComponent>
-          <TextComponent style="font-fontGeneralSansRegular text-sm text-zinc-900">MESA - {selectedTable}</TextComponent>
+          <TextComponent style="font-fontGeneralSansRegular text-sm text-zinc-900">
+            MESA - {selectedTable}
+          </TextComponent>
         </View>
       ) : (
         <View>
