@@ -10,7 +10,7 @@ import {Close} from '../../../assets/icons/Close';
 import {TextComponent} from '../Text/index-text';
 import {ButtonComponent} from '../Button/index-button';
 import {formatPrice} from '../../utils/functions';
-import { apiRoute } from '../../utils/consts';
+import {apiRoute} from '../../utils/consts';
 
 interface IProductModal {
   visible: boolean;
@@ -19,7 +19,12 @@ interface IProductModal {
   onAddToCart: (products: TProducts) => void;
 }
 
-export const ProductModal = ({visible, onClose, product, onAddToCart}: IProductModal) => {
+export const ProductModal = ({
+  visible,
+  onClose,
+  product,
+  onAddToCart,
+}: IProductModal) => {
   if (!product) {
     return null;
   }
@@ -58,10 +63,18 @@ export const ProductModal = ({visible, onClose, product, onAddToCart}: IProductM
         data={product.ingredients}
         keyExtractor={key => key._id}
         renderItem={({item: ingredients}) => (
-          <View className="border border-gray-300 rounded-md py-5 px-6 flex-row mb-2">
-            <TextComponent style="font-fontGeneralSansRegular text-base text-zinc-900 mr-3">
+          <View className="border border-gray-300 rounded-md py-5 px-6 flex-row mb-2 items-center">
+            {/* <TextComponent style="font-fontGeneralSansRegular text-base text-zinc-900 mr-3">
               {ingredients.icon}
-            </TextComponent>
+            </TextComponent> */}
+            <ImageBackground
+              style={{width: 50, height: 50, marginRight: 6}}
+              resizeMode="stretch"
+              borderRadius={10}
+              source={{
+                uri: `${apiRoute}/uploads/${ingredients.icon}`,
+              }}
+            />
             <TextComponent>{ingredients.name}</TextComponent>
           </View>
         )}
@@ -80,8 +93,8 @@ export const ProductModal = ({visible, onClose, product, onAddToCart}: IProductM
             <ButtonComponent
               text={'Adicionar ao pedido'}
               handleClick={() => {
-                onAddToCart(product)
-                onClose()
+                onAddToCart(product);
+                onClose();
               }}
               state={{
                 disabled: false,

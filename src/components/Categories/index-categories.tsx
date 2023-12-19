@@ -32,7 +32,9 @@ export const Categories = ({categories, handleSelect}: ICategories) => {
             <View className="mr-8 flex justify-center items-center">
               <View className={"bg-slate-100 p-2 rounded-full w-12 h-12 items-center justify-center"}>
                 <ImageBackground
-                  style={{width: '100%', height: 20}}
+                  style={{width: '100%', height: '100%'}}
+                  resizeMode='stretch'
+                  borderRadius={10}
                   source={{
                     uri: `${apiRoute}/uploads/${item.icon}`,
                   }}

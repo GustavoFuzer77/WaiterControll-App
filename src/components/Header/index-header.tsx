@@ -22,9 +22,9 @@ export const Header = ({selectedTable, onCancel}: IHeader) => {
         <View>
           <TextComponent>bem vindo(a) ao</TextComponent>
           <TextComponent style="font-fontGeneralSansBold text-xl text-zinc-900">
-            FOOD
+            WAITER
             <TextComponent style="font-fontGeneralSansRegular text-xl text-zinc-900">
-              APP
+              CONTROLL
             </TextComponent>
           </TextComponent>
         </View>
